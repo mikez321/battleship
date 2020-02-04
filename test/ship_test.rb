@@ -23,18 +23,21 @@ class ShipTest < Minitest::Test
   end
 
   def test_when_the_game_starts_it_is_healthy
+    skip
     cruiser = Ship.new("Cruiser", 3)
 
     assert_equal 3, cruiser.health
   end
 
   def test_when_the_game_starts_it_is_not_sunk
+    skip
     cruiser = Ship.new("Cruiser", 3)
 
     assert_equal false, cruiser.sunk?
   end
 
   def test_when_it_is_hit_its_health_decreases
+    skip
     cruiser = Ship.new("Cruiser", 3)
 
     assert_equal 3, cruiser.health
@@ -45,6 +48,7 @@ class ShipTest < Minitest::Test
   end
 
   def test_when_its_health_is_zero_it_is_sunk
+    skip
     cruiser = Ship.new("Cruiser", 3)
 
     assert_equal 3, cruiser.health
