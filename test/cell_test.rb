@@ -75,6 +75,15 @@ class CellTest < Minitest::Test
     assert_equal true, cell.fired_upon?
   end
 
+  def test_optional_show_ships
+    cell_1 = Cell.new("B4")
+    cruiser = Ship.new("Cruiser", 3)
+    cell_1.place_ship(cruiser)
+
+    assert_equal cruiser, cell_1.ship
+    assert_equal "S", cell_1.render(true)
+  end
+
   def test_it_renders_output_for_fired_upon_and_hit_status
     cell_1 = Cell.new("B4")
     cell_2 = Cell.new("C3")
@@ -87,8 +96,6 @@ class CellTest < Minitest::Test
 
     cell_2.place_ship(cruiser)
     assert_equal ".", cell_2.render
-
-    # assert_equal "S", cell_2.render(true)
 
     cell_2.fire_upon
     assert_equal "H", cell_2.render
