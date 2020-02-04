@@ -28,7 +28,6 @@ class CellTest < Minitest::Test
   end
 
   def test_if_it_has_a_ship_it_is_not_empty
-    skip
     cell = Cell.new("B4")
     cruiser = Ship.new("Cruiser", 3)
 
@@ -38,7 +37,6 @@ class CellTest < Minitest::Test
   end
 
   def test_a_ship_can_be_fired_upon
-    skip
     cell = Cell.new("B4")
     cruiser = Ship.new("Cruiser", 3)
 
