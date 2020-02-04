@@ -28,6 +28,7 @@ class CellTest < Minitest::Test
   end
 
   def test_if_it_has_a_ship_it_is_not_empty
+    skip
     cell = Cell.new("B4")
     cruiser = Ship.new("Cruiser", 3)
 
@@ -37,6 +38,7 @@ class CellTest < Minitest::Test
   end
 
   def test_a_ship_can_be_fired_upon
+    skip
     cell = Cell.new("B4")
     cruiser = Ship.new("Cruiser", 3)
 
@@ -45,7 +47,8 @@ class CellTest < Minitest::Test
     assert_equal true, cell.fired_upon?
   end
 
-  def test_test_if_it_has_a_ship_and_is_fired_upon_the_ship_is_damaged
+  def test_if_it_has_a_ship_and_is_fired_upon_the_ship_is_damaged
+    skip
     cell = Cell.new("B4")
     cruiser = Ship.new("Cruiser", 3)
 
@@ -65,6 +68,7 @@ class CellTest < Minitest::Test
   end
 
   def test_it_has_an_option_to_show_ships
+    skip
     cell_1 = Cell.new("B4")
     cruiser = Ship.new("Cruiser", 3)
     cell_1.place_ship(cruiser)
@@ -74,6 +78,7 @@ class CellTest < Minitest::Test
   end
 
   def test_it_renders_output_for_fired_upon_and_hit_status
+    skip
     cell_1 = Cell.new("B4")
     cell_2 = Cell.new("C3")
     cruiser = Ship.new("Cruiser", 3)
@@ -91,6 +96,7 @@ class CellTest < Minitest::Test
   end
 
   def test_it_renders_an_x_if_a_ship_is_sunk
+    skip
     cell_2 = Cell.new("C3")
     cruiser = Ship.new("Cruiser", 3)
 
