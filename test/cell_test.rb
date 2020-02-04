@@ -11,21 +11,11 @@ class CellTest < Minitest::Test
     assert_instance_of Cell, cell
   end
 
-  def test_it_has_a_coordinate
+  def test_it_starts_with_a_coordinate_and_empty
     cell = Cell.new("B4")
 
     assert_equal "B4", cell.coordinate
-  end
-
-  def test_it_can_have_a_ship
-    cell = Cell.new("B4")
-
     assert_nil = cell.ship
-  end
-
-  def test_it_can_be_empty
-    cell = Cell.new("B4")
-
     assert_equal true, cell.empty?
   end
 
@@ -67,7 +57,6 @@ class CellTest < Minitest::Test
      assert_equal false, cell.fired_upon?
      assert_equal 3, cell.ship.health
 
-
     cell.fire_upon
     assert_equal 2, cell.ship.health
 
@@ -75,7 +64,7 @@ class CellTest < Minitest::Test
     assert_equal true, cell.fired_upon?
   end
 
-  def test_optional_show_ships
+  def test_it_has_an_option_to_show_ships
     cell_1 = Cell.new("B4")
     cruiser = Ship.new("Cruiser", 3)
     cell_1.place_ship(cruiser)
