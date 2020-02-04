@@ -18,7 +18,6 @@ class ShipTest < Minitest::Test
   end
 
   def test_when_the_game_starts_it_is_healthy
-    skip
     cruiser = Ship.new("Cruiser", 3)
 
     assert_equal 3, cruiser.health
