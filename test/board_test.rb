@@ -56,6 +56,10 @@ class BoardTest < Minitest::Test
     assert_equal false, board.calls["C1"].ship
     board.place(submarine, ["B1", "C1"])
     assert_equal submarine, board.calls["C1"].ship
+    assert_equal submarine, board.cells["B1"].ship
+    board.place(cruiser, ["B1", "B2", "B3"])
+    assert_equal "Invalid placement, try again.", board.place(cruiser, ["B1", "B2", "B3"]) 
+
   end
 
   def test_board_can_render
