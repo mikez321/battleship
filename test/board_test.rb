@@ -13,11 +13,12 @@ class BoardTest < Minitest::Test
 
   def test_it_has_cells
     board = Board.new
-    assert_equal Hash, board.cells
+    assert_instance_of Hash, board.cells
     assert_equal 16, board.cells.length
   end
 
   def test_it_has_valid_coordiantes
+  skip
     board = Board.new
     assert_equal true, board.valid_coordinate?("A1")
     assert_equal true, board.valid_coordinate?("D4")
@@ -26,6 +27,7 @@ class BoardTest < Minitest::Test
   end
 
   def test_it_has_valid_placement
+  skip
     board = Board.new
     cruiser = Ship.new("Cruiser", 3)
     submarine = Ship.new("Submarine", 2)
@@ -46,11 +48,12 @@ class BoardTest < Minitest::Test
   end
 
   def test_ship_can_be_placed
+  skip
     board = Board.new
     cruiser = Ship.new("Cruiser", 3)
     submarine = Ship.new("Submarine", 2)
 
-    assert_equal false board.cells["A3"].ship
+    assert_equal false, board.cells["A3"].ship
     board.place(cruiser, ["A1", "A2", "A3"])
     assert_equal cruiser, board.cells["A3"].ship
     assert_equal false, board.calls["C1"].ship
@@ -63,6 +66,7 @@ class BoardTest < Minitest::Test
   end
 
   def test_board_can_render
+  skip
     board = Board.new
     cruiser = Ship.new("Cruiser", 3)
     submarine = Ship.new("Submarine", 2)
