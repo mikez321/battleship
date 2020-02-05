@@ -11,7 +11,7 @@ class Direction
   end
 
   def none_missed?
-    length == (coordinates[0]..coordinates[-1]).to_a.length
+    @length == (coordinates[0]..coordinates[-1]).to_a.length
   end
 
   def horizontal?
