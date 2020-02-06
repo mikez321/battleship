@@ -36,10 +36,15 @@ class Board
     ship_valid_horizontal?(ship, coordinates) || ship_valid_vertical?(ship, coordinates)
   end
 
-def place(ship, coordinates)
-  coordinates.each do |coordinate|
-    cells[coordinate].place_ship(ship)
-  end 
-end
+  def place(ship, coordinates)
+    empty_ship_space = coordinates.map { |coordinate| cells[coordinate].empty? }
+    if empty_ship_space.uniq.length == 1 && true
+      coordinates.each do |coordinate|
+        cells[coordinate].place_ship(ship)
+      end
+    else
+      "Invalid placement, try again."
+    end
+  end
 
 end
