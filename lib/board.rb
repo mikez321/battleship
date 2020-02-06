@@ -17,4 +17,30 @@ class Board
   def valid_coordinate?(coordinate)
     cells.keys.include?(coordinate)
   end
+
+  def ship_horizontal?(coordinates)
+    horiz = coordinates.map do |coordinate|
+      coordinate.ord
+      end
+    horiz.uniq.length == 1
+  end
+
+  def ship_vertical?(coordinates)
+    vert = coordinates.map do |coordinate|
+    coordinate[1]
+    end
+    vert.uniq.length == 1
+  end
+
+  def ship_covers_coordinates(ship, coordinates)
+    coordinates.length == ship.length &&
+    (coordinates[0]..coordinates[-1]).to_a.length == ship.length
+  end
+
+  def valid_placement?(ship, coordinates)
+    ship_vertical?(coordinates) || ship_horizontal?(coordinates) &&
+    ship_covers_coordinates(ship,coordinates)
+  end
+
+
 end
