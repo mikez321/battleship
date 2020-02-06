@@ -47,4 +47,11 @@ class Board
     end
   end
 
+  # def render
+  #   @board_of_cells.each_value do |cell|
+  #     # require "Pry"; binding.pry
+  #     cell.render
+  #   end
+  # end
+
 end
