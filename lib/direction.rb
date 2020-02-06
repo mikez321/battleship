@@ -1,16 +1,17 @@
 class Direction
   attr_reader :length, :coordinates
-  def initialize(length, coordinates)
+
+  def initialize(length = ship.length, coordinates)
   @length = length
   @coordinates = coordinates
   end
 
   def length_match?
-    coordinates.length == length
+    coordinates.length == @length
   end
 
   def none_missed?
-    length == (coordinates[0]..coordinates[-1]).to_a.length
+    @length == (coordinates[0]..coordinates[-1]).to_a.length
   end
 
   def horizontal?
