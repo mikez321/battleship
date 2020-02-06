@@ -39,4 +39,10 @@ class DirectionTest < Minitest::Test
     submarine = Ship.new("Submarine", 2)
     assert_equal true, direction.vertical?
   end
+
+  def test_diagonal?
+    direction = Direction.new(3, ["A1", "B2", "C3"])
+    cruiser = Ship.new("Cruiser", 3)
+    assert_equal true, direction.diagonal?
+  end
 end
