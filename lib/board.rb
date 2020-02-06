@@ -4,7 +4,7 @@ class Board
               "B1","B2","B3","B4",
               "C1","C2","C3","C4",
               "D1","D2","D3","D4"]
-    @board_of_cells = Hash.new
+        @board_of_cells = Hash.new
   end
 
   def cells
@@ -36,5 +36,10 @@ class Board
     ship_valid_horizontal?(ship, coordinates) || ship_valid_vertical?(ship, coordinates)
   end
 
+def place(ship, coordinates)
+  coordinates.each do |coordinate|
+
+  require "Pry"; binding.pry
+end
 
 end
