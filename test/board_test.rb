@@ -57,8 +57,10 @@ class BoardTest < Minitest::Test
     board.place(submarine, ["B1", "C1"])
     assert_equal submarine, board.cells["C1"].ship
     assert_equal submarine, board.cells["B1"].ship
-    # board.place(cruiser, ["B1", "B2", "B3"])
-    # assert_equal "Invalid placement, try again.", board.place(cruiser, ["B1", "B2", "B3"])
+
+    board.place(cruiser, ["B1", "B2", "B3"])
+
+    assert_equal "Invalid placement, try again.", board.place(cruiser, ["B1", "B2", "B3"])
 
   end
 
