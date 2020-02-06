@@ -22,5 +22,9 @@ class DirectionTest < Minitest::Test
     direction = Direction.new(3, ["A1", "A2", "A3"])
     cruiser = Ship.new("Cruiser", 3)
     assert_equal true, direction.none_missed?
+
+    direction = Direction.new(3, ["A1", "B2"])
+    submarine = Ship.new("Submarine", 2)
+    assert_equal false, direction.none_missed?
   end
 end
