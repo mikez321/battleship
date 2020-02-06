@@ -4,13 +4,13 @@ class Board
               "B1","B2","B3","B4",
               "C1","C2","C3","C4",
               "D1","D2","D3","D4"]
-        @board_of_cells = Hash.new
-  end
-
-  def cells
+    @board_of_cells = Hash.new
     @cell_names.each do |name|
       @board_of_cells[name] = Cell.new(name)
     end
+  end
+
+  def cells
     @board_of_cells
   end
 
@@ -38,8 +38,8 @@ class Board
 
 def place(ship, coordinates)
   coordinates.each do |coordinate|
-
-  require "Pry"; binding.pry
+    cells[coordinate].place_ship(ship)
+  end 
 end
 
 end
