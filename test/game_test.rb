@@ -4,12 +4,16 @@ require './lib/board'
 require './lib/game'
 # require 'minitest/autorun'
 # require 'minitest/pride'
-
+@player_board = Board.new
+@computer_board = Board.new
+@cruiser = Ship.new("Crusier", 3)
+@submarine = Ship.new("Submarine", 2)
+@start_option = " "
 
 game = Game.new
 game.welcome
 game.setup
-
+require "pry"; binding.pry
 
 # class GameTest < Minitest::Test
 #
