@@ -34,15 +34,14 @@ class Game
     puts "Enter the coordinates of where you want to place the #{@submarine.name}:"
     print "> "
     ship1_coordinates = gets.chomp
-    ship1_coordinates.split(",").each do |coord|
-      @board.cells[coord.delete(" ")].place_ship(@submarine)
+    if
+      @board.valid_placement?(@submarine, ship1_coordinates.delete(" ").split(","))
+      ship1_coordinates.split(",").each do |coord|
+        @board.cells[coord.delete(" ")].place_ship(@submarine)
+      end
+    else
+      "Enter new coordinates, the ones you entered are invalid."
     end
-    # if
-    #   @board.valid_coordinate?(ship1_coordinates)
-    #   @board.cells[ship1_coordinates].place_ship(@submarine)
-    # else
-    #   "Enter new coordinates, the ones you entered are invalid."
-    # end
     puts "Your board now looks like this:"
     puts "==============PLAYER BOARD=============="
     puts @board.render(true)
