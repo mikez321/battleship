@@ -9,7 +9,7 @@ class Game
     @player_cruiser = Ship.new("Crusier", 3)
     @player_submarine = Ship.new("Submarine", 2)
     @computer_board = Board.new
-    @coputer_cruiser = Ship.new("Crusier", 3)
+    @computer_cruiser = Ship.new("Crusier", 3)
     @computer_submarine = Ship.new("Submarine", 2)
   end
 
@@ -20,7 +20,7 @@ class Game
 
     if start_option == "p"
       puts "Geat! Lets play!"
-      place_computer_ships
+      place_computer_submarine
       # puts "==============PLAYER BOARD=============="
       # puts @player_board.render
       # player_place_ship1
@@ -29,19 +29,23 @@ class Game
     end
   end
 
-  def place_computer_ships
-    require "Pry"; binding.pry
-    cells.keys.shuffle.first
-    rand_coordinates = []
+  def place_computer_submarine
 
-    2.times do
-      rand_coordinates << cells.keys.shuffle.first
-      rand_coordinates
+    # rand_coordinates = []
+    # @computer_submarine.length.times do
+    #   rand_coordinates << @computer_board.cells.keys.shuffle.first
+    # end
+    rand_coordinates = []
+    until @computer_board.valid_placement?(@computer_submarine, rand_coordinates)
+      rand_coordinates = []
+      @computer_submarine.length.times do
+        rand_coordinates << @computer_board.cells.keys.shuffle.first
+      end
     end
+    require "Pry"; binding.pry
   end
 
   def player_place_ship1
-    require "Pry"; binding.pry
     puts "Your ships are: "
     puts "The #{@player_cruiser.name} which will take up #{@player_cruiser.length} spaces."
     puts "The #{@player_submarine.name} which will take up #{@player_submarine.length} spaces."
