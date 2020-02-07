@@ -69,15 +69,24 @@ class Game
     end
   end
 
+  def normalize_input_coordinates(coordinates)
+    coordinates.split(" ").map do |coordinate|
+      coordinate.delete(" ").delete(",").upcase
+      end
+  end
+
   def player_place_submarine
-    puts "Enter the coordinates of where you want to place the #{@player_submarine.name}:"
+    puts "Enter the coordinates of where you want to place the #{@player_submarine.name}"
+    puts "The #{@player_submarine.name} will take up #{@player_submarine.length} spaces:"
     print "> "
-    submarine_coordinates = gets.chomp.delete(" ").split(",")
-    until @player_board.valid_placement?(@player_submarine, submarine_coordinates) && submarine_coordinates.each { |coord| @player_board.valid_coordinate?(coord) }
+    submarine_coordinates = gets.chomp
+    user_coordinates = normalize_input_coordinates(submarine_coordinates)
+    until @player_board.valid_placement?(@player_submarine, user_coordinates) && user_coordinates.each { |coord| @player_board.valid_coordinate?(coord) }
       puts "Enter new coordinates, the ones you entered are invalid."
-      submarine_coordinates = gets.chomp.delete(" ").split(",")
+      submarine_coordinates = gets.chomp
+      user_coordinates = normalize_input_coordinates(submarine_coordinates)
     end
-    submarine_coordinates.each do |coordinate|
+    user_coordinates.each do |coordinate|
       @player_board.cells[coordinate].place_ship(@player_submarine)
     end
     player_place_cruiser
@@ -86,10 +95,12 @@ class Game
   def player_place_cruiser
     puts "Now place your #{@player_cruiser.name} which will take up #{@player_cruiser.length} spaces."
     print "> "
-    cruiser_coordinates = gets.chomp.delete(" ").split(",")
+    cruiser_coordinates = gets.chomp
+    cruiser_coordinates = normalize_input_coordinates(cruiser_coordinates)
     until @player_board.valid_placement?(@player_cruiser, cruiser_coordinates) && cruiser_coordinates.each { |coord| @player_board.valid_coordinate?(coord) }
       puts "Enter new coordinates, the ones you entered are invalid."
-      cruiser_coordinates = gets.chomp.delete(" ").split(",")
+      cruiser_coordinates = gets.chomp
+      user_coordinates = normalize_input_coordinates(cruiser_coordinates)
     end
 
     cruiser_coordinates.each do |coord|
