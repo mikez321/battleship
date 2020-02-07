@@ -15,7 +15,8 @@ class Board
               "D1" => Cell.new("D1"),
               "D2" => Cell.new("D2"),
               "D3" => Cell.new("D3"),
-              "D4" => Cell.new("D4")}
+              "D4" => Cell.new("D4")
+            }
   end
 
   def cells
@@ -40,18 +41,24 @@ class Board
     vert.uniq.length == 1 && ship.length == (coordinates.first[0]..coordinates.last[0]).to_a.length
   end
 
+  def ship_space_valid?(ship, coordinates)
+    ship_space = coordinates.map { |coordinate| cells[coordinate].empty? }
+    ship_space.uniq.length == 1
+  end
+
+  def all_coordinates_are_unique?(coordinates)
+    coordinates.length == coordinates.uniq.length
+  end
+
   def valid_placement?(ship, coordinates)
-    ship_valid_horizontal?(ship, coordinates) || ship_valid_vertical?(ship, coordinates)
+    (ship_valid_horizontal?(ship, coordinates) || ship_valid_vertical?(ship, coordinates)) && ship_space_valid?(ship, coordinates) && all_coordinates_are_unique?(coordinates)
   end
 
   def place(ship, coordinates)
-    empty_ship_space = coordinates.map { |coordinate| cells[coordinate].empty? }
-    if empty_ship_space.uniq.length == 1 && true
+    if valid_placement?(ship, coordinates)
       coordinates.each do |coordinate|
         cells[coordinate].place_ship(ship)
       end
-    else
-      "Invalid placement, try again."
     end
   end
 
