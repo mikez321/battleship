@@ -24,6 +24,7 @@ class Game
       place_computer_cruiser
       place_player_ships
     else
+      system "clear"
       puts  "Come back when you're ready for battle!"
     end
   end
@@ -39,6 +40,16 @@ class Game
     @computer_board.place(@computer_submarine, rand_coordinates)
   end
 
+  def display_board(player)
+    if (player == "computer")
+      puts "=============COMPUTER BOARD============="
+      puts @computer_board.render
+    elsif (player == "player")
+      puts "==============PLAYER BOARD=============="
+      puts @player_board.render(true)
+    end
+  end
+
   def place_computer_cruiser
     rand_coordinates = []
       until @computer_board.valid_placement?(@computer_cruiser, rand_coordinates)
@@ -52,21 +63,20 @@ class Game
 
   def place_player_ships
     system "clear"
-    puts "=============COMPUTER BOARD============="
-    puts @computer_board.render
-    puts "I have laid out my boats on my board."
-    puts "Now it is your turn."
+    display_board("computer")
+    puts "I have laid out my ship on my board and am ready for battle!"
+    puts "\nNow it is your turn."
     puts "Your ships are: "
     puts "The #{@player_cruiser.name.upcase} which will take up #{@player_cruiser.length} spaces."
     puts "The #{@player_submarine.name.upcase} which will take up #{@player_submarine.length} spaces."
     puts "\nYou must place your ships on the board.  Spaces must be consecutive\nand obviously the ships have to be fully on the board."
-    puts "Are you ready to place your ship? Press y when ready."
-    response = gets.chomp.downcase
-    if response == "y"
+    # puts "Are you ready to place your ship? Press y when ready."
+    # response = gets.chomp.downcase
+    # if response == "y"
       player_place_submarine
-    else
-      "OK.  Let me know when you're ready by pressing Y."
-    end
+    # else
+    #   "OK.  Let me know when you're ready by pressing Y."
+    # end
   end
 
   def normalize_input_coordinates(coordinates)
@@ -106,14 +116,19 @@ class Game
     cruiser_coordinates.each do |coord|
       @player_board.cells[coord].place_ship(@player_cruiser)
     end
-    puts "=============COMPUTER BOARD============="
-    puts @computer_board.render(true)
-    puts "Here is your board with your ships:"
-    puts "==============PLAYER BOARD=============="
-    puts @player_board.render(true)
+    last_setup
+  end
+
+  def last_setup
+    system "clear"
+    puts "My board is ready!"
+    display_board("computer")
+    print "\n"
+    puts "=============* BATTLESHIP *============="
+    puts "\nHere is your board with your ships:"
+    display_board("player")
     puts "Ready to play?  Press S to start"
     puts "> "
     start_option = gets.chomp.downcase
-
   end
 end
