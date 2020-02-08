@@ -22,8 +22,6 @@ class Game
     if start_option == "p"
       puts "Geat! Lets play!"
       place_computer_ships
-      # place_computer_submarine
-      # place_computer_cruiser
       place_player_ships
     else
       system "clear"
@@ -72,7 +70,7 @@ class Game
     puts "Spaces must be consecutive."
     puts "Obviously the ships have to be fully on the board."
     puts "Separate coordinates with a space or comma."
-    player_place_submarine
+    player_place_ships
   end
 
   def normalize_input_coordinates(coordinates)
@@ -94,27 +92,17 @@ class Game
     end
   end
 
-  def player_place_submarine
-    puts "\nEnter the coordinates of where you want to place the #{@player_submarine.name}"
-    puts "The #{@player_submarine.name} will take up #{@player_submarine.length} spaces:"
-    print "> "
-    submarine_coordinates = gets.chomp
-    normalized_coordinates = normalize_input_coordinates(submarine_coordinates)
-    ship_placer(@player_submarine, normalized_coordinates)
-    puts "\nYour #{@player_submarine.name.upcase} has been placed!\n"
-
-    player_place_cruiser
-  end
-
-  def player_place_cruiser
-    puts "Now place your #{@player_cruiser.name}."
-    puts "The #{@player_cruiser.name} will take up #{@player_cruiser.length} spaces:"
-    print "> "
-    cruiser_coordinates = gets.chomp
-    normalized_coordinates = normalize_input_coordinates(cruiser_coordinates)
-    ship_placer(@player_cruiser, normalized_coordinates)
-    puts "\nYour #{@player_cruiser.name.upcase} has been placed!"
-
+  def player_place_ships
+    player_ships = [@player_submarine, @player_cruiser]
+    player_ships.each do |ship|
+      puts "\nEnter the coordinates of where you want to place the #{ship.name}"
+      puts "The #{ship.name} will take up #{ship.length} spaces:"
+      print "> "
+      ship_coordinates = gets.chomp
+      normalized_coordinates = normalize_input_coordinates(ship_coordinates)
+      ship_placer(ship, normalized_coordinates)
+      puts "\nYour #{ship.name.upcase} has been placed!\n"
+    end
     last_setup_screen
   end
 
