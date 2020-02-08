@@ -70,13 +70,7 @@ class Game
     puts "The #{@player_cruiser.name.upcase} which will take up #{@player_cruiser.length} spaces."
     puts "The #{@player_submarine.name.upcase} which will take up #{@player_submarine.length} spaces."
     puts "\nYou must place your ships on the board.  Spaces must be consecutive\nand obviously the ships have to be fully on the board."
-    # puts "Are you ready to place your ship? Press y when ready."
-    # response = gets.chomp.downcase
-    # if response == "y"
-      player_place_submarine
-    # else
-    #   "OK.  Let me know when you're ready by pressing Y."
-    # end
+    player_place_submarine
   end
 
   def normalize_input_coordinates(coordinates)
@@ -93,6 +87,7 @@ class Game
     user_coordinates = normalize_input_coordinates(submarine_coordinates)
     until @player_board.valid_placement?(@player_submarine, user_coordinates) && user_coordinates.each { |coord| @player_board.valid_coordinate?(coord) }
       puts "Enter new coordinates, the ones you entered are invalid."
+      print "> "
       submarine_coordinates = gets.chomp
       user_coordinates = normalize_input_coordinates(submarine_coordinates)
     end
@@ -103,18 +98,18 @@ class Game
   end
 
   def player_place_cruiser
-    puts "Now place your #{@player_cruiser.name} which will take up #{@player_cruiser.length} spaces."
+    puts "The #{@player_cruiser.name} will take up #{@player_cruiser.length} spaces:"
     print "> "
     cruiser_coordinates = gets.chomp
-    cruiser_coordinates = normalize_input_coordinates(cruiser_coordinates)
-    until @player_board.valid_placement?(@player_cruiser, cruiser_coordinates) && cruiser_coordinates.each { |coord| @player_board.valid_coordinate?(coord) }
+    user_coordinates = normalize_input_coordinates(cruiser_coordinates)
+    until @player_board.valid_placement?(@player_cruiser, user_coordinates) && user_coordinates.each { |coord| @player_board.valid_coordinate?(coord) }
       puts "Enter new coordinates, the ones you entered are invalid."
+      print "> "
       cruiser_coordinates = gets.chomp
       user_coordinates = normalize_input_coordinates(cruiser_coordinates)
     end
-
-    cruiser_coordinates.each do |coord|
-      @player_board.cells[coord].place_ship(@player_cruiser)
+    user_coordinates.each do |coordinate|
+      @player_board.cells[coordinate].place_ship(@player_cruiser)
     end
     last_setup
   end
