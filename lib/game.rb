@@ -1,6 +1,7 @@
 require './lib/ship'
 require './lib/cell'
 require './lib/board'
+require 'io/console'
 
 class Game
 
@@ -69,7 +70,7 @@ class Game
   def place_player_ships
     system "clear"
     display_board("computer")
-    puts "I have laid out my ship on my board and am ready for battle!"
+    puts "\nI have laid out my ship on my board and am ready for battle!"
     puts "\nNow it is your turn."
     puts "Your ships are: "
     puts "The #{@player_cruiser.name.upcase} which will take up #{@player_cruiser.length} spaces."
@@ -87,54 +88,53 @@ class Game
       end
   end
 
+  def ship_placer(ship, normalized_coordinates)
+    until @player_board.valid_placement?(ship, normalized_coordinates) &&
+        normalized_coordinates.each { |coord| @player_board.valid_coordinate?(coord) }
+      puts "Enter new coordinates, the ones you entered are invalid."
+      print "> "
+      loop_coordinates = gets.chomp
+      normalized_coordinates = normalize_input_coordinates(loop_coordinates)
+    end
+    normalized_coordinates.each do |coordinate|
+      @player_board.cells[coordinate].place_ship(ship)
+    end
+  end
+
   def player_place_submarine
-    puts "Enter the coordinates of where you want to place the #{@player_submarine.name}"
+    puts "\nEnter the coordinates of where you want to place the #{@player_submarine.name}"
     puts "The #{@player_submarine.name} will take up #{@player_submarine.length} spaces:"
     print "> "
     submarine_coordinates = gets.chomp
-    user_coordinates = normalize_input_coordinates(submarine_coordinates)
-    until @player_board.valid_placement?(@player_submarine, user_coordinates) && user_coordinates.each { |coord| @player_board.valid_coordinate?(coord) }
-      puts "Enter new coordinates, the ones you entered are invalid."
-      print "> "
-      submarine_coordinates = gets.chomp
-      user_coordinates = normalize_input_coordinates(submarine_coordinates)
-    end
-    user_coordinates.each do |coordinate|
-      @player_board.cells[coordinate].place_ship(@player_submarine)
-    end
+    normalized_coordinates = normalize_input_coordinates(submarine_coordinates)
+    ship_placer(@player_submarine, normalized_coordinates)
+    puts "\nYour #{@player_submarine.name.upcase} has been placed!\n"
+
     player_place_cruiser
   end
 
   def player_place_cruiser
+    puts "Now place your #{@player_cruiser.name}."
     puts "The #{@player_cruiser.name} will take up #{@player_cruiser.length} spaces:"
     print "> "
     cruiser_coordinates = gets.chomp
-    user_coordinates = normalize_input_coordinates(cruiser_coordinates)
-    until @player_board.valid_placement?(@player_cruiser, user_coordinates) && user_coordinates.each { |coord| @player_board.valid_coordinate?(coord) }
-      puts "Enter new coordinates, the ones you entered are invalid."
-      print "> "
-      cruiser_coordinates = gets.chomp
-      user_coordinates = normalize_input_coordinates(cruiser_coordinates)
-    end
-    user_coordinates.each do |coordinate|
-      @player_board.cells[coordinate].place_ship(@player_cruiser)
-    end
-    last_setup
+    normalized_coordinates = normalize_input_coordinates(cruiser_coordinates)
+    ship_placer(@player_cruiser, normalized_coordinates)
+    puts "\nYour #{@player_cruiser.name.upcase} has been placed!"
+
+    last_setup_screen
   end
 
-  def last_setup
+  def last_setup_screen
     system "clear"
     header
     puts "My board is ready!"
     display_board("computer")
     print "\n"
     display_board("player")
-    puts "Ready to play?  Press S to start"
-    puts "> "
-    start_option = gets.chomp.downcase
-    if start_option == "s"
-      get_player_shot
-    end
+    puts "Press any key to start\n  "
+    STDIN.getch
+    get_player_shot
   end
 
   def get_player_shot
@@ -146,5 +146,5 @@ class Game
     puts "Hit me with your best shot!"
     print "> "
     coordinate = gets.chomp.upcase
-end
+  end
 end
