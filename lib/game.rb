@@ -69,7 +69,10 @@ class Game
     puts "Your ships are: "
     puts "The #{@player_cruiser.name.upcase} which will take up #{@player_cruiser.length} spaces."
     puts "The #{@player_submarine.name.upcase} which will take up #{@player_submarine.length} spaces."
-    puts "\nYou must place your ships on the board.  Spaces must be consecutive\nand obviously the ships have to be fully on the board."
+    puts "\nYou must place your ships on the board."
+    puts "Spaces must be consecutive."
+    puts "Obviously the ships have to be fully on the board."
+    puts "Separate coordinates with a space or comma."
     player_place_submarine
   end
 
