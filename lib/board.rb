@@ -24,22 +24,26 @@ class Board
     @cells
   end
 
-  def valid_coordinate?(coordinate)
-    cells.keys.include?(coordinate)
+  def valid_coordinate?(coordinates)
+    cells.keys.include?(coordinates)
+  end
+
+  def ascending_only?(coordinates)
+    coordinates == coordinates.sort
   end
 
   def ship_valid_horizontal?(ship, coordinates)
     horiz = coordinates.map do |coordinate|
       coordinate.ord
     end
-    horiz.uniq.length == 1 && ship.length == (coordinates.sort.first..coordinates.sort.last).to_a.length
+    horiz.uniq.length == 1 && coordinates.length == (coordinates.sort.first..coordinates.sort.last).to_a.length && ship.length == coordinates.length && ascending_only?(coordinates)
   end
 
   def ship_valid_vertical?(ship, coordinates)
     vert = coordinates.map do |coordinate|
       coordinate[1]
       end
-    vert.uniq.length == 1 && ship.length == (coordinates.sort.first[0]..coordinates.sort.last[0]).to_a.length
+    vert.uniq.length == 1 && coordinates.length == (coordinates.sort.first[0]..coordinates.sort.last[0]).to_a.length && ship.length == coordinates.length && ascending_only?(coordinates)
   end
 
   def ship_space_valid?(ship, coordinates)
