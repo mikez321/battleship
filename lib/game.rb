@@ -50,6 +50,11 @@ class Game
     end
   end
 
+  def header
+    puts "=============* BATTLESHIP *============="
+    puts "\n\n"
+  end
+
   def place_computer_cruiser
     rand_coordinates = []
       until @computer_board.valid_placement?(@computer_cruiser, rand_coordinates)
@@ -119,14 +124,27 @@ class Game
 
   def last_setup
     system "clear"
+    header
     puts "My board is ready!"
     display_board("computer")
     print "\n"
-    puts "=============* BATTLESHIP *============="
-    puts "\nHere is your board with your ships:"
     display_board("player")
     puts "Ready to play?  Press S to start"
     puts "> "
     start_option = gets.chomp.downcase
+    if start_option == "s"
+      get_player_shot
+    end
   end
+
+  def get_player_shot
+    system "clear"
+    header
+    display_board("computer")
+    print "\n\n"
+    display_board("player")
+    puts "Hit me with your best shot!"
+    print "> "
+    coordinate = gets.chomp.upcase
+end
 end
