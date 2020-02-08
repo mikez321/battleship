@@ -21,8 +21,9 @@ class Game
 
     if start_option == "p"
       puts "Geat! Lets play!"
-      place_computer_submarine
-      place_computer_cruiser
+      place_computer_ships
+      # place_computer_submarine
+      # place_computer_cruiser
       place_player_ships
     else
       system "clear"
@@ -30,15 +31,18 @@ class Game
     end
   end
 
-  def place_computer_submarine
-    rand_coordinates = []
-    until @computer_board.valid_placement?(@computer_submarine, rand_coordinates)
+  def place_computer_ships
+    computer_ships = [@computer_submarine, @computer_cruiser]
+    computer_ships.each do |ship|
       rand_coordinates = []
-      @computer_submarine.length.times do
-        rand_coordinates << @computer_board.cells.keys.shuffle.first
+      until @computer_board.valid_placement?(ship, rand_coordinates)
+        rand_coordinates = []
+        ship.length.times do
+          rand_coordinates << @computer_board.cells.keys.shuffle.first
+        end
       end
+      @computer_board.place(ship, rand_coordinates)
     end
-    @computer_board.place(@computer_submarine, rand_coordinates)
   end
 
   def display_board(player)
@@ -54,17 +58,6 @@ class Game
   def header
     puts "=============* BATTLESHIP *============="
     puts "\n\n"
-  end
-
-  def place_computer_cruiser
-    rand_coordinates = []
-      until @computer_board.valid_placement?(@computer_cruiser, rand_coordinates)
-        rand_coordinates = []
-        @computer_cruiser.length.times do
-          rand_coordinates << @computer_board.cells.keys.shuffle.first
-        end
-      end
-      @computer_board.place(@computer_cruiser, rand_coordinates)
   end
 
   def place_player_ships
