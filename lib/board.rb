@@ -36,14 +36,20 @@ class Board
     horiz = coordinates.map do |coordinate|
       coordinate.ord
     end
-    horiz.uniq.length == 1 && coordinates.length == (coordinates.sort.first..coordinates.sort.last).to_a.length && ship.length == coordinates.length && ascending_only?(coordinates)
+    horiz.uniq.length == 1 &&
+      coordinates.length == (coordinates.sort.first..coordinates.sort.last).to_a.length &&
+      ship.length == coordinates.length &&
+      ascending_only?(coordinates)
   end
 
   def ship_valid_vertical?(ship, coordinates)
     vert = coordinates.map do |coordinate|
       coordinate[1]
       end
-    vert.uniq.length == 1 && coordinates.length == (coordinates.sort.first[0]..coordinates.sort.last[0]).to_a.length && ship.length == coordinates.length && ascending_only?(coordinates)
+    vert.uniq.length == 1 &&
+      coordinates.length == (coordinates.sort.first[0]..coordinates.sort.last[0]).to_a.length &&
+      ship.length == coordinates.length &&
+      ascending_only?(coordinates)
   end
 
   def ship_space_valid?(ship, coordinates)
@@ -56,7 +62,10 @@ class Board
   end
 
   def valid_placement?(ship, coordinates)
-    (ship_valid_horizontal?(ship, coordinates) || ship_valid_vertical?(ship, coordinates)) && ship_space_valid?(ship, coordinates) && all_coordinates_are_unique?(coordinates)
+    (ship_valid_horizontal?(ship, coordinates) ||
+      ship_valid_vertical?(ship, coordinates)) &&
+      ship_space_valid?(ship, coordinates) &&
+      all_coordinates_are_unique?(coordinates)
   end
 
   def place(ship, coordinates)
