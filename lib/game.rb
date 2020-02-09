@@ -14,16 +14,33 @@ class Game
     @computer_submarine = Ship.new("Submarine", 2)
   end
 
-  def start
-    puts "Welcome to BATTLESHIP!"
-    puts "Enter p to play. Enter q to quit"
-    start_option = gets.chomp
+  def start_banner
+    puts "_______  _______  _______  _______  ___      _______  _______  __   __  ___   _______ "
+    puts "|  _    ||   _   ||       ||       ||   |    |       ||       ||  | |  ||   | |       |"
+    puts "| |_|   ||  |_|  ||_     _||_     _||   |    |    ___||  _____||  |_|  ||   | |    _  |"
+    puts "|       ||       |  |   |    |   |  |   |    |   |___ | |_____ |       ||   | |   |_| |"
+    puts "|  _   | |       |  |   |    |   |  |   |___ |    ___||_____  ||       ||   | |    ___|"
+    puts "| |_|   ||   _   |  |   |    |   |  |       ||   |___  _____| ||   _   ||   | |   |    "
+    puts "|_______||__| |__|  |___|    |___|  |_______||_______||_______||__| |__||___| |___|    "
+    puts "\n"
+  end
 
+  def start
+    system "clear"
+    start_banner
+    puts "Enter p to play. Enter q to quit"
+    start_option = gets.chomp.downcase
+      until start_option == "p" || start_option == "q"
+        system "clear"
+        start_banner
+        puts "Enter p to play. Enter q to quit"
+        start_option = gets.chomp
+      end
     if start_option == "p"
       puts "Geat! Lets play!"
       place_computer_ships
       place_player_ships_prompt
-    else
+    elsif start_option == "q"
       system "clear"
       puts  "Come back when you're ready for battle!"
     end
