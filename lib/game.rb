@@ -22,7 +22,7 @@ class Game
     if start_option == "p"
       puts "Geat! Lets play!"
       place_computer_ships
-      place_player_ships
+      place_player_ships_prompt
     else
       system "clear"
       puts  "Come back when you're ready for battle!"
@@ -58,7 +58,7 @@ class Game
     puts "\n\n"
   end
 
-  def place_player_ships
+  def place_player_ships_prompt
     system "clear"
     display_board("computer")
     puts "\nI have laid out my ship on my board and am ready for battle!"
@@ -70,7 +70,7 @@ class Game
     puts "Spaces must be consecutive."
     puts "Obviously the ships have to be fully on the board."
     puts "Separate coordinates with a space or comma."
-    player_place_ships
+    place_player_ships_actions
   end
 
   def normalize_input_coordinates(coordinates)
@@ -92,7 +92,7 @@ class Game
     end
   end
 
-  def player_place_ships
+  def place_player_ships_actions
     player_ships = [@player_submarine, @player_cruiser]
     player_ships.each do |ship|
       puts "\nEnter the coordinates of where you want to place the #{ship.name}"
