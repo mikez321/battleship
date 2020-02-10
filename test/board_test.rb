@@ -25,6 +25,13 @@ class BoardTest < Minitest::Test
     assert_equal false, board.valid_coordinate?("E1")
   end
 
+  def test_valid_coordinates_can_not_have_repeated_cells
+    board = Board.new
+
+    assert_equal true, board.all_coordinates_are_unique?(["A1", "A2", "A3"])
+    assert_equal false, board.all_coordinates_are_unique?(["A1", "A3", "A3"])
+  end
+
   def test_it_has_valid_placement
     board = Board.new
     cruiser = Ship.new("Cruiser", 3)
@@ -35,8 +42,8 @@ class BoardTest < Minitest::Test
     # # next four are to make sure the coordiantes are consecutive
     assert_equal false, board.valid_placement?(cruiser, ["A1", "A2", "A4"])
     assert_equal false, board.valid_placement?(submarine, ["A1", "C1"])
-    assert_equal false, board.valid_placement?(cruiser, ["A3", "A2", "A1"])
-    assert_equal false, board.valid_placement?(submarine, ["C1", "B1"])
+    assert_equal true, board.valid_placement?(cruiser, ["A3", "A2", "A1"])
+    assert_equal true, board.valid_placement?(submarine, ["C1", "B1"])
     # next two are to make sure they arent diagonal
     assert_equal false, board.valid_placement?(cruiser, ["A1", "B2", "C3"])
     assert_equal false, board.valid_placement?(submarine, ["C2", "D3"])
@@ -57,11 +64,19 @@ class BoardTest < Minitest::Test
     board.place(submarine, ["B1", "C1"])
     assert_equal submarine, board.cells["C1"].ship
     assert_equal submarine, board.cells["B1"].ship
+  end
 
-    board.place(cruiser, ["B1", "B2", "B3"])
+  def test_placement_is_only_valid_if_space_is_empty
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    submarine = Ship.new("Submarine", 2)
 
-    assert_equal "Invalid placement, try again.", board.place(cruiser, ["B1", "B2", "B3"])
+    board.place(submarine, ["B1", "C1"])
+    assert_equal submarine, board.cells["C1"].ship
+    assert_equal submarine, board.cells["B1"].ship
 
+    assert_equal false, board.ship_space_valid?(cruiser, ["C1", "C2", "C3"])
+    assert_equal true, board.ship_space_valid?(cruiser, ["A1", "A2", "A3"])
   end
 
   def test_board_can_render
