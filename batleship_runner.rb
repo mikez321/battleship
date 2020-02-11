@@ -22,7 +22,10 @@ require './lib/ship'
 require './lib/cell'
 require './lib/board'
 require './lib/game'
+require './lib/game_play'
 
 
-game = Game.new
-game.start
+# game = Game.new
+# game.start
+game_play = GamePlay.new
+game_play.start
