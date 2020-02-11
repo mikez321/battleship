@@ -4,6 +4,7 @@ require './lib/cell'
 require './lib/ship'
 
 class GamePlay
+  attr_reader :header
 
   def initialize
     @game = Game.new
@@ -16,95 +17,88 @@ class GamePlay
     @game_over = false
   end
 
-  def start
-    puts "Welcome to BATTLESHIP!"
-    puts "Enter p to play. Enter q to quit"
-    start_option = gets.chomp
+  def start_banner
+    puts " _______  _______  _______  _______  ___      _______  _______  __   __  ___   _______ "
+    puts "|  _    ||   _   ||       ||       ||   |    |       ||       ||  | |  ||   | |       |"
+    puts "| |_|   ||  |_|  ||_     _||_     _||   |    |    ___||  _____||  |_|  ||   | |    _  |"
+    puts "|       ||       |  |   |    |   |  |   |    |   |___ | |_____ |       ||   | |   |_| |"
+    puts "|  _   | |       |  |   |    |   |  |   |___ |    ___||_____  ||       ||   | |    ___|"
+    puts "| |_|   ||   _   |  |   |    |   |  |       ||   |___  _____| ||   _   ||   | |   |    "
+    puts "|_______||__| |__|  |___|    |___|  |_______||_______||_______||__| |__||___| |___|    "
+    puts "\n"
+  end
 
+  def start
+    system "clear"
+    start_banner
+    puts "Enter p to play. Enter q to quit"
+    start_option = gets.chomp.downcase
+      until start_option == "p" || start_option == "q"
+        system "clear"
+        start_banner
+        puts "Enter p to play. Enter q to quit"
+        start_option = gets.chomp
+      end
     if start_option == "p"
-      puts "Great! Lets play!"
-      @game.place_computer_submarine
-      @game.place_computer_cruiser
-      place_player_ships
-    else
+      puts "Geat! Lets play!"
+      @game.place_computer_ships
+      place_player_ships_prompt
+    elsif start_option == "q"
+      system "clear"
       puts  "Come back when you're ready for battle!"
     end
   end
 
-  def place_player_ships
+  def display_board(player)
+    if (player == "computer")
+      puts "=============COMPUTER BOARD============="
+      puts @game.computer_board.render(true)
+    elsif (player == "player")
+      puts "==============PLAYER BOARD=============="
+      puts @game.player_board.render(true)
+    end
+  end
+
+  def header
+    puts "=============* BATTLESHIP *============="
+    puts "\n\n"
+  end
+
+  def place_player_ships_prompt
     # system "clear"
-    puts "=============COMPUTER BOARD============="
-    puts @computer_board.render
-    puts "I have laid out my ships on my board."
-    puts "Now it is your turn."
+    display_board("computer")
+    puts "\nI have laid out my ship on my board and am ready for battle!"
+    puts "\nNow it is your turn."
     puts "Your ships are: "
     puts "The #{@player_cruiser.name.upcase} which will take up #{@player_cruiser.length} spaces."
     puts "The #{@player_submarine.name.upcase} which will take up #{@player_submarine.length} spaces."
-    puts "\nYou must place your ships on the board.  Spaces must be consecutive\nand obviously the ships have to be fully on the board."
-    puts "Are you ready to place your ship? Press y when ready."
-    response = gets.chomp.downcase
-    if response == "y"
-    player_place_submarine
-    else
-      "OK.  Let me know when you're ready by pressing Y."
-    end
-  end
-
-  def player_place_submarine
-    puts "Enter the coordinates of where you want to place the #{@player_submarine.name}:"
-    print "> "
-    submarine_coordinates = gets.chomp.delete(" ").split(",")
-    until @player_board.valid_placement?(@player_submarine, submarine_coordinates) && submarine_coordinates.each { |coord| @player_board.valid_coordinate?(coord) }
-      puts "Enter new coordinates, the ones you entered are invalid."
-      submarine_coordinates = gets.chomp.delete(" ").split(",")
-    end
-    submarine_coordinates.each do |coordinate|
-      @player_board.cells[coordinate].place_ship(@player_submarine)
-    end
-    player_place_cruiser
-  end
-
-  def player_place_cruiser
-    puts "Now place your #{@player_cruiser.name} which will take up #{@player_cruiser.length} spaces."
-    print "> "
-    cruiser_coordinates = gets.chomp.delete(" ").split(",")
-    until @player_board.valid_placement?(@player_cruiser, cruiser_coordinates) && cruiser_coordinates.each { |coord| @player_board.valid_coordinate?(coord) }
-      puts "Enter new coordinates, the ones you entered are invalid."
-      cruiser_coordinates = gets.chomp.delete(" ").split(",")
-    end
-
-    cruiser_coordinates.each do |coord|
-      @player_board.cells[coord].place_ship(@player_cruiser)
-    end
-    puts "=============COMPUTER BOARD============="
-    puts @computer_board.render(true)
-    puts "Here is your board with your ships:"
-    puts "==============PLAYER BOARD=============="
-    puts @player_board.render(true)
-    puts "Ready to play?  Press S to start"
-    puts "> "
-    start_option = gets.chomp.downcase
+    puts "\nYou must place your ships on the board."
+    puts "Spaces must be consecutive."
+    puts "Obviously the ships have to be fully on the board."
+    puts "Separate coordinates with a space or comma."
+    @game.place_player_ships_actions
     gameplay
   end
 
   def gameplay
-    until @game_over == true
+    until @game.game_over == true
+      display_board("computer")
+      print "\n\n"
+      display_board("player")
       puts "Choose a coordinate to place your shot."
-      coordinate = gets.chomp
+      coordinate = gets.chomp.upcase
       @game.place_player_shot(coordinate)
       sleep 1.2
       @game.place_computer_shot
       sleep 1.2
-      puts "=============COMPUTER BOARD============="
-      puts @computer_board.render(true)
-      puts "==============PLAYER BOARD=============="
-      puts @player_board.render(true)
+      display_board("computer")
+      print "\n\n"
+      display_board("player")
     end
     @game.game_over_message
     start
     place_player_ships
-    player_place_submarine
-    player_place_cruiser
+    @game.place_player_ships_actions
     gameplay
   end
 end

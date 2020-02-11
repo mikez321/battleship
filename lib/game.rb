@@ -6,7 +6,7 @@ require './lib/game_play'
 
 class Game
   attr_reader :player_board, :player_cruiser, :player_submarine,
-              :computer_board, :computer_cruiser, :computer_submarine
+              :computer_board, :computer_cruiser, :computer_submarine, :game_over
   def initialize
     @player_board = Board.new
     @player_cruiser = Ship.new("Crusier", 3)
@@ -15,38 +15,6 @@ class Game
     @computer_cruiser = Ship.new("Crusier", 3)
     @computer_submarine = Ship.new("Submarine", 2)
     @game_over = false
-  end
-
-  def start_banner
-    puts " _______  _______  _______  _______  ___      _______  _______  __   __  ___   _______ "
-    puts "|  _    ||   _   ||       ||       ||   |    |       ||       ||  | |  ||   | |       |"
-    puts "| |_|   ||  |_|  ||_     _||_     _||   |    |    ___||  _____||  |_|  ||   | |    _  |"
-    puts "|       ||       |  |   |    |   |  |   |    |   |___ | |_____ |       ||   | |   |_| |"
-    puts "|  _   | |       |  |   |    |   |  |   |___ |    ___||_____  ||       ||   | |    ___|"
-    puts "| |_|   ||   _   |  |   |    |   |  |       ||   |___  _____| ||   _   ||   | |   |    "
-    puts "|_______||__| |__|  |___|    |___|  |_______||_______||_______||__| |__||___| |___|    "
-    puts "\n"
-  end
-
-  def start
-    system "clear"
-    start_banner
-    puts "Enter p to play. Enter q to quit"
-    start_option = gets.chomp.downcase
-      until start_option == "p" || start_option == "q"
-        system "clear"
-        start_banner
-        puts "Enter p to play. Enter q to quit"
-        start_option = gets.chomp
-      end
-    if start_option == "p"
-      puts "Geat! Lets play!"
-      place_computer_ships
-      place_player_ships_prompt
-    elsif start_option == "q"
-      system "clear"
-      puts  "Come back when you're ready for battle!"
-    end
   end
 
   def place_computer_ships
@@ -61,35 +29,6 @@ class Game
       end
       @computer_board.place(ship, rand_coordinates)
     end
-  end
-  def display_board(player)
-    if (player == "computer")
-      puts "=============COMPUTER BOARD============="
-      puts @computer_board.render
-    elsif (player == "player")
-      puts "==============PLAYER BOARD=============="
-      puts @player_board.render(true)
-    end
-  end
-
-  def header
-    puts "=============* BATTLESHIP *============="
-    puts "\n\n"
-  end
-
-  def place_player_ships_prompt
-    system "clear"
-    display_board("computer")
-    puts "\nI have laid out my ship on my board and am ready for battle!"
-    puts "\nNow it is your turn."
-    puts "Your ships are: "
-    puts "The #{@player_cruiser.name.upcase} which will take up #{@player_cruiser.length} spaces."
-    puts "The #{@player_submarine.name.upcase} which will take up #{@player_submarine.length} spaces."
-    puts "\nYou must place your ships on the board."
-    puts "Spaces must be consecutive."
-    puts "Obviously the ships have to be fully on the board."
-    puts "Separate coordinates with a space or comma."
-    place_player_ships_actions
   end
 
   def normalize_input_coordinates(coordinates)
@@ -122,35 +61,9 @@ class Game
       ship_placer(ship, normalized_coordinates)
       puts "\nYour #{ship.name.upcase} has been placed!\n"
     end
-    last_setup_screen
-  end
-
-  def last_setup_screen
-    system "clear"
-    header
-    puts "My board is ready!"
-    display_board("computer")
-    print "\n"
-    display_board("player")
-    puts "Press any key to start\n  "
-    STDIN.getch
-    get_player_shot
-  end
-
-  def get_player_shot
-    system "clear"
-    header
-    display_board("computer")
-    print "\n\n"
-    display_board("player")
-    puts "Hit me with your best shot!"
-    print "> "
-    coordinate = gets.chomp.upcase
-    place_player_shot(coordinate)
   end
 
   def place_player_shot(coordinate)
-    # require "pry"; binding.pry
     until @computer_board.valid_coordinate?(coordinate) && !@computer_board.cells[coordinate].fired_upon?
         puts "Invalid coordinates, please try again."
         puts ">"
@@ -167,7 +80,7 @@ class Game
     end
 
     if @computer_cruiser.sunk? && @computer_submarine.sunk?
-      @game_play.game_over = true
+      @game_over = true
     end
   end
 
@@ -187,7 +100,7 @@ class Game
     end
 
     if @player_cruiser.sunk? && @player_submarine.sunk?
-      @game_play.game_over = true
+      @game_over = true
     end
   end
 

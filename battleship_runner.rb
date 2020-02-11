@@ -4,5 +4,5 @@ require './lib/board'
 require './lib/game'
 
 
-game = Game.new
-game.start
+game = GamePlay.new
+game.start 
