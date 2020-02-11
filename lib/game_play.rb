@@ -4,6 +4,7 @@ require './lib/cell'
 require './lib/ship'
 
 class GamePlay
+  attr_reader :header
 
   def initialize
     @game = Game.new
@@ -76,6 +77,7 @@ class GamePlay
     puts "Obviously the ships have to be fully on the board."
     puts "Separate coordinates with a space or comma."
     @game.place_player_ships_actions
+    gameplay
   end
 
   def gameplay
@@ -94,8 +96,19 @@ class GamePlay
     @game.game_over_message
     start
     place_player_ships
-    player_place_submarine
-    player_place_cruiser
+    @game.place_player_ships_actions
     gameplay
   end
+
+  # def last_setup_screen
+  #   system "clear"
+  #   header
+  #   puts "My board is ready!"
+  #   display_board("computer")
+  #   print "\n"
+  #   display_board("player")
+  #   puts "Press any key to start\n  "
+  #   STDIN.getch
+  #   @game.place_player_shot
+  # end
 end

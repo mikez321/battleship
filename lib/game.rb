@@ -122,32 +122,20 @@ class Game
       ship_placer(ship, normalized_coordinates)
       puts "\nYour #{ship.name.upcase} has been placed!\n"
     end
-    last_setup_screen
+    # last_setup_screen
   end
 
-  def last_setup_screen
-    system "clear"
-    header
-    puts "My board is ready!"
-    display_board("computer")
-    print "\n"
-    display_board("player")
-    puts "Press any key to start\n  "
-    STDIN.getch
-    get_player_shot
-  end
-
-  def get_player_shot
-    system "clear"
-    header
-    display_board("computer")
-    print "\n\n"
-    display_board("player")
-    puts "Hit me with your best shot!"
-    print "> "
-    coordinate = gets.chomp.upcase
-    place_player_shot(coordinate)
-  end
+  # def last_setup_screen
+  #   system "clear"
+  #   header
+  #   puts "My board is ready!"
+  #   display_board("computer")
+  #   print "\n"
+  #   display_board("player")
+  #   puts "Press any key to start\n  "
+  #   STDIN.getch
+  #   get_player_shot
+  # end
 
   def place_player_shot(coordinate)
     # require "pry"; binding.pry
