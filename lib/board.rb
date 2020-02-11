@@ -33,6 +33,7 @@ class Board
   end
 
   def ship_valid_horizontal?(ship, coordinates)
+    valid_coordinate?(coordinates)
     horiz = coordinates.map do |coordinate|
       coordinate.ord
     end
@@ -43,6 +44,7 @@ class Board
   end
 
   def ship_valid_vertical?(ship, coordinates)
+    valid_coordinate?(coordinates)
     vert = coordinates.map do |coordinate|
       coordinate[1]
       end
