@@ -24,11 +24,6 @@ class GameTest < Minitest::Test
     assert_instance_of Ship, game.computer_submarine
   end
 
-  def test_it_has_a_banner
-    skip
-
-  end
-
   def test_it_can_place_its_own_ships
     game = Game.new
 
@@ -41,10 +36,6 @@ class GameTest < Minitest::Test
     assert_equal true, game.computer_submarine.placed?
   end
 
-  def test_it_can_display_a_header
-  skip
-  end
-
   def test_it_can_take_a_variety_of_inputs_for_coordinates
     game = Game.new
 
@@ -55,6 +46,16 @@ class GameTest < Minitest::Test
     assert_equal ["A1", "B1"], game.normalize_input_coordinates("a1 B1")
     assert_equal ["A1", "B1"], game.normalize_input_coordinates("A1 B1")
     assert_equal ["A1", "B1"], game.normalize_input_coordinates("A1, B1")
+  end
+
+  def test_if_coordinates_are_valid_a_player_can_place_ships
+    game = Game.new
+
+    assert_equal false, game.player_submarine.placed?
+
+    game.ship_placer(game.player_submarine, ["A1", "A2"])
+
+    assert_equal true, game.player_submarine.placed?
   end
 
 end
