@@ -1,11 +1,8 @@
 require './lib/ship'
 require './lib/cell'
 require './lib/board'
-<<<<<<< HEAD
 require 'io/console'
-=======
 require './lib/game_play'
->>>>>>> 63b40caf29c2020e5b5a60d6f42b49576e4a568d
 
 class Game
   attr_reader :player_board, :player_cruiser, :player_submarine,
@@ -20,7 +17,6 @@ class Game
     @game_over = false
   end
 
-<<<<<<< HEAD
   def start_banner
     puts " _______  _______  _______  _______  ___      _______  _______  __   __  ___   _______ "
     puts "|  _    ||   _   ||       ||       ||   |    |       ||       ||  | |  ||   | |       |"
@@ -52,8 +48,6 @@ class Game
       puts  "Come back when you're ready for battle!"
     end
   end
-=======
->>>>>>> 63b40caf29c2020e5b5a60d6f42b49576e4a568d
 
   def place_computer_ships
     computer_ships = [@computer_submarine, @computer_cruiser]
@@ -68,8 +62,6 @@ class Game
       @computer_board.place(ship, rand_coordinates)
     end
   end
-
-<<<<<<< HEAD
   def display_board(player)
     if (player == "computer")
       puts "=============COMPUTER BOARD============="
@@ -154,7 +146,9 @@ class Game
     puts "Hit me with your best shot!"
     print "> "
     coordinate = gets.chomp.upcase
-=======
+    place_player_shot(coordinate)
+  end
+
   def place_player_shot(coordinate)
     # require "pry"; binding.pry
     until @computer_board.valid_coordinate?(coordinate) && !@computer_board.cells[coordinate].fired_upon?
@@ -203,6 +197,5 @@ class Game
     else @computer_cruiser.sunk? && @computer_submarine.sunk?
       p "I want a rematch!"
     end
->>>>>>> 63b40caf29c2020e5b5a60d6f42b49576e4a568d
   end
 end
