@@ -29,6 +29,12 @@ class ShipTest < Minitest::Test
     assert_equal false, cruiser.sunk?
   end
 
+  def test_when_the_game_starts_it_is_not_placed
+    cruiser = Ship.new("Cruiser", 3)
+
+    assert_equal false, cruiser.placed?
+  end
+
   def test_when_it_is_hit_its_health_decreases
     cruiser = Ship.new("Cruiser", 3)
 
