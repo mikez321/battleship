@@ -52,10 +52,10 @@ class GamePlay
   def display_board(player)
     if (player == "computer")
       puts "=============COMPUTER BOARD============="
-      puts @computer_board.render
+      puts @game.computer_board.render(true)
     elsif (player == "player")
       puts "==============PLAYER BOARD=============="
-      puts @player_board.render(true)
+      puts @game.player_board.render(true)
     end
   end
 
@@ -65,7 +65,7 @@ class GamePlay
   end
 
   def place_player_ships_prompt
-    system "clear"
+    # system "clear"
     display_board("computer")
     puts "\nI have laid out my ship on my board and am ready for battle!"
     puts "\nNow it is your turn."
@@ -81,17 +81,19 @@ class GamePlay
   end
 
   def gameplay
-    until @game_over == true
+    until @game.game_over == true
+      display_board("computer")
+      print "\n\n"
+      display_board("player")
       puts "Choose a coordinate to place your shot."
-      coordinate = gets.chomp
+      coordinate = gets.chomp.upcase
       @game.place_player_shot(coordinate)
       sleep 1.2
       @game.place_computer_shot
       sleep 1.2
-      puts "=============COMPUTER BOARD============="
-      puts @computer_board.render(true)
-      puts "==============PLAYER BOARD=============="
-      puts @player_board.render(true)
+      display_board("computer")
+      print "\n\n"
+      display_board("player")
     end
     @game.game_over_message
     start
@@ -99,16 +101,4 @@ class GamePlay
     @game.place_player_ships_actions
     gameplay
   end
-
-  # def last_setup_screen
-  #   system "clear"
-  #   header
-  #   puts "My board is ready!"
-  #   display_board("computer")
-  #   print "\n"
-  #   display_board("player")
-  #   puts "Press any key to start\n  "
-  #   STDIN.getch
-  #   @game.place_player_shot
-  # end
 end
