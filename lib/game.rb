@@ -1,7 +1,11 @@
 require './lib/ship'
 require './lib/cell'
 require './lib/board'
+<<<<<<< HEAD
 require 'io/console'
+=======
+require './lib/game_play'
+>>>>>>> 63b40caf29c2020e5b5a60d6f42b49576e4a568d
 
 class Game
   attr_reader :player_board, :player_cruiser, :player_submarine,
@@ -13,8 +17,10 @@ class Game
     @computer_board = Board.new
     @computer_cruiser = Ship.new("Crusier", 3)
     @computer_submarine = Ship.new("Submarine", 2)
+    @game_over = false
   end
 
+<<<<<<< HEAD
   def start_banner
     puts " _______  _______  _______  _______  ___      _______  _______  __   __  ___   _______ "
     puts "|  _    ||   _   ||       ||       ||   |    |       ||       ||  | |  ||   | |       |"
@@ -46,6 +52,8 @@ class Game
       puts  "Come back when you're ready for battle!"
     end
   end
+=======
+>>>>>>> 63b40caf29c2020e5b5a60d6f42b49576e4a568d
 
   def place_computer_ships
     computer_ships = [@computer_submarine, @computer_cruiser]
@@ -61,6 +69,7 @@ class Game
     end
   end
 
+<<<<<<< HEAD
   def display_board(player)
     if (player == "computer")
       puts "=============COMPUTER BOARD============="
@@ -145,5 +154,55 @@ class Game
     puts "Hit me with your best shot!"
     print "> "
     coordinate = gets.chomp.upcase
+=======
+  def place_player_shot(coordinate)
+    # require "pry"; binding.pry
+    until @computer_board.valid_coordinate?(coordinate) && !@computer_board.cells[coordinate].fired_upon?
+        puts "Invalid coordinates, please try again."
+        puts ">"
+        coordinate = gets.chomp
+    end
+    @computer_board.cells[coordinate].fire_upon
+
+    if @computer_board.cells[coordinate].render == "M"
+      puts "Your shot on #{coordinate} was a miss!"
+    elsif @computer_board.cells[coordinate].render == "H"
+      puts "Your shot on #{coordinate} was a hit!"
+    elsif @computer_board.cells[coordinate].render == "X"
+      puts "Your shot on #{coordinate} sunk a ship!"
+    end
+
+    if @computer_cruiser.sunk? && @computer_submarine.sunk?
+      @game_play.game_over = true
+    end
+  end
+
+  def place_computer_shot
+    coordinate = @player_board.cells.keys.sample
+    until @player_board.valid_coordinate?(coordinate) && !@player_board.cells[coordinate].fired_upon?
+      coordinate = @player_board.cells.keys.sample
+    end
+    @player_board.cells[coordinate].fire_upon
+
+    if @player_board.cells[coordinate].render == "M"
+      puts "Their shot on #{coordinate} was a miss!"
+    elsif @player_board.cells[coordinate].render == "H"
+      puts "Their shot on #{coordinate} was a hit!"
+    elsif @player_board.cells[coordinate].render == "X"
+      puts "Their shot on #{coordinate} sunk your ship!"
+    end
+
+    if @player_cruiser.sunk? && @player_submarine.sunk?
+      @game_play.game_over = true
+    end
+  end
+
+  def game_over_message
+    if @player_cruiser.sunk? && @player_submarine.sunk?
+      p "HA, You lost! Try again!"
+    else @computer_cruiser.sunk? && @computer_submarine.sunk?
+      p "I want a rematch!"
+    end
+>>>>>>> 63b40caf29c2020e5b5a60d6f42b49576e4a568d
   end
 end
