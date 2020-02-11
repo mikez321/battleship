@@ -4,7 +4,8 @@ require './lib/board'
 require 'io/console'
 
 class Game
-
+  attr_reader :player_board, :player_cruiser, :player_submarine,
+              :computer_board, :computer_cruiser, :computer_submarine
   def initialize
     @player_board = Board.new
     @player_cruiser = Ship.new("Crusier", 3)
