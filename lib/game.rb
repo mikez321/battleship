@@ -11,6 +11,7 @@ class Game
     @computer_board = Board.new
     @computer_cruiser = Ship.new("Crusier", 3)
     @computer_submarine = Ship.new("Submarine", 2)
+    @game_over = false
   end
 
   def start
@@ -19,7 +20,7 @@ class Game
     start_option = gets.chomp
 
     if start_option == "p"
-      puts "Geat! Lets play!"
+      puts "Great! Lets play!"
       place_computer_submarine
       place_computer_cruiser
       place_player_ships
@@ -54,7 +55,7 @@ class Game
     system "clear"
     puts "=============COMPUTER BOARD============="
     puts @computer_board.render
-    puts "I have laid out my boats on my board."
+    puts "I have laid out my ships on my board."
     puts "Now it is your turn."
     puts "Your ships are: "
     puts "The #{@player_cruiser.name.upcase} which will take up #{@player_cruiser.length} spaces."
@@ -86,7 +87,7 @@ class Game
   def player_place_cruiser
     puts "Now place your #{@player_cruiser.name} which will take up #{@player_cruiser.length} spaces."
     print "> "
-    cruiser_coordinates = gets.chomp.delete(" ").split(",")
+    cruiser_coordinates = gets.chomp 
     until @player_board.valid_placement?(@player_cruiser, cruiser_coordinates) && cruiser_coordinates.each { |coord| @player_board.valid_coordinate?(coord) }
       puts "Enter new coordinates, the ones you entered are invalid."
       cruiser_coordinates = gets.chomp.delete(" ").split(",")
@@ -103,6 +104,77 @@ class Game
     puts "Ready to play?  Press S to start"
     puts "> "
     start_option = gets.chomp.downcase
+    gameplay
+  end
 
+  def gameplay
+    until @game_over == true
+      puts "Choose a coordinate to place your shot."
+      coordinate = gets.chomp
+      place_player_shot(coordinate)
+      sleep 1.2
+      place_computer_shot
+      sleep 1.2
+      puts "=============COMPUTER BOARD============="
+      puts @computer_board.render
+      puts "==============PLAYER BOARD=============="
+      puts @player_board.render(true)
+    end
+    game_over_message
+    start
+    place_player_ships
+    player_place_submarine
+    player_place_cruiser
+    gameplay
+  end
+
+  def place_player_shot(coordinate)
+    # require "pry"; binding.pry
+    until @computer_board.valid_coordinate?(coordinate) && !@computer_board.cells[coordinate].fired_upon?
+        puts "Invalid coordinates, please try again."
+        puts ">"
+        coordinate = gets.chomp
+    end
+    @computer_board.cells[coordinate].fire_upon
+
+    if @computer_board.cells[coordinate].render == "M"
+      puts "Your shot on #{coordinate} was a miss!"
+    elsif @computer_board.cells[coordinate].render == "H"
+      puts "Your shot on #{coordinate} was a hit!"
+    elsif @computer_board.cells[coordinate].render == "X"
+      puts "Your shot on #{coordinate} sunk a ship!"
+    end
+
+    if @computer_cruiser.sunk? && @computer_submarine.sunk?
+      @game_over = true
+    end
+  end
+
+  def place_computer_shot
+    coordinate = @player_board.cells.keys.sample
+    until @player_board.valid_coordinate?(coordinate) && !@player_board.cells[coordinate].fired_upon?
+      coordinate = @player_board.cells.keys.sample
+    end
+    @player_board.cells[coordinate].fire_upon
+
+    if @player_board.cells[coordinate].render == "M"
+      puts "Their shot on #{coordinate} was a miss!"
+    elsif @player_board.cells[coordinate].render == "H"
+      puts "Their shot on #{coordinate} was a hit!"
+    elsif @player_board.cells[coordinate].render == "X"
+      puts "Their shot on #{coordinate} sunk your ship!"
+    end
+
+    if @player_cruiser.sunk? && @player_submarine.sunk?
+      @game_over = true
+    end
+  end
+
+  def game_over_message
+    if @player_cruiser.sunk? && @player_submarine.sunk?
+      p "HA, You lost! Try again!"
+    else @computer_cruiser.sunk? && @computer_submarine.sunk?
+      p "I want a rematch!"
+    end
   end
 end
