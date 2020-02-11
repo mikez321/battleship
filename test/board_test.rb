@@ -62,8 +62,10 @@ class BoardTest < Minitest::Test
     assert = nil, board.cells["A3"].ship
     board.place(cruiser, ["A1", "A2", "A3"])
     assert_equal cruiser, board.cells["A3"].ship
+    assert_equal true, cruiser.placed?
     assert = nil, board.cells["C1"].ship
     board.place(submarine, ["B1", "C1"])
+    assert_equal true, submarine.placed?
     assert_equal submarine, board.cells["C1"].ship
     assert_equal submarine, board.cells["B1"].ship
   end
