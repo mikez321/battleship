@@ -25,6 +25,7 @@ class CellTest < Minitest::Test
 
     cell.place_ship(cruiser)
     assert_equal cruiser, cell.ship
+    assert_equal true, cruiser.placed? 
   end
 
   def test_if_it_has_a_ship_it_is_not_empty
@@ -33,7 +34,6 @@ class CellTest < Minitest::Test
 
     cell.place_ship(cruiser)
     assert_equal false, cell.empty?
-
   end
 
   def test_a_ship_can_be_fired_upon
