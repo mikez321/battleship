@@ -133,17 +133,6 @@ class Game
     display_board("player")
     puts "Press any key to start\n  "
     STDIN.getch
-    get_player_shot
-  end
-
-  def get_player_shot
-    system "clear"
-    header
-    display_board("computer")
-    print "\n\n"
-    display_board("player")
-    puts "Hit me with your best shot!"
-    print "> "
-    coordinate = gets.chomp.upcase
+    place_player_shot
   end
 end
