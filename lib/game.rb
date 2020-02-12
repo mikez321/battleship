@@ -63,20 +63,22 @@ class Game
   end
 
   def place_player_shot(coordinate)
-    until @computer_board.valid_coordinate?(coordinate) &&
-        !@computer_board.cells[coordinate].fired_upon?
+    new_coordinate = coordinate
+    until @computer_board.valid_coordinate?(new_coordinate) &&
+        !@computer_board.cells[new_coordinate].fired_upon?
       puts "Invalid coordinates, please try again."
-      puts ">"
-      coordinate = gets.chomp
-    end
-    @computer_board.cells[coordinate].fire_upon
 
-    if @computer_board.cells[coordinate].render == "M"
-      puts "Your shot on #{coordinate} was a miss!"
-    elsif @computer_board.cells[coordinate].render == "H"
-      puts "Your shot on #{coordinate} was a hit!"
-    elsif @computer_board.cells[coordinate].render == "X"
-      puts "Your shot on #{coordinate} sunk a ship!"
+      puts ">"
+      new_coordinate = gets.chomp.upcase
+    end
+    @computer_board.cells[new_coordinate].fire_upon
+
+    if @computer_board.cells[new_coordinate].render == "M"
+      puts "Your shot on #{new_coordinate} was a miss!"
+    elsif @computer_board.cells[new_coordinate].render == "H"
+      puts "Your shot on #{new_coordinate} was a hit!"
+    elsif @computer_board.cells[new_coordinate].render == "X"
+      puts "Your shot on #{new_coordinate} sunk a ship!"
     end
     game_over?
   end
