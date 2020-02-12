@@ -103,12 +103,4 @@ class Game
       @game_over = true
     end
   end
-
-  def game_over_message
-    if @player_cruiser.sunk? && @player_submarine.sunk?
-      p "HA, You lost! Try again!"
-    else @computer_cruiser.sunk? && @computer_submarine.sunk?
-      p "I want a rematch!"
-    end
-  end
 end
