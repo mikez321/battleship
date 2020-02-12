@@ -25,9 +25,9 @@ class Board
   end
 
   def valid_coordinate?(coordinates)
-    if coordinates.class = String
+    if coordinates.class == String
       cells.keys.include?(coordinates)
-    elsif coordinates.class = Array
+    elsif coordinates.class == Array
       coordinates.all? do |coord|
         valid_coordinate?(coord)
       end
