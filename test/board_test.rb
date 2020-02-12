@@ -7,17 +7,20 @@ require 'minitest/pride'
 class BoardTest < Minitest::Test
 
   def test_it_exists
+    skip
     board = Board.new
     assert_instance_of Board, board
   end
 
   def test_it_has_cells
+    skip
     board = Board.new
     assert_instance_of Hash, board.cells
     assert_equal 16, board.cells.length
   end
 
   def test_it_has_valid_coordiantes
+    skip
     board = Board.new
     assert_equal true, board.valid_coordinate?("A1")
     assert_equal true, board.valid_coordinate?("D4")
@@ -26,6 +29,7 @@ class BoardTest < Minitest::Test
   end
 
   def test_valid_coordinates_can_not_have_repeated_cells
+    skip
     board = Board.new
 
     assert_equal true, board.all_coordinates_are_unique?(["A1", "A2", "A3"])
@@ -51,10 +55,11 @@ class BoardTest < Minitest::Test
     assert_equal false, board.valid_placement?(submarine, ["C2", "D3"])
     # just to double check all past test pass
     assert_equal true, board.valid_placement?(submarine, ["A1", "A2"])
-    # assert_equal true, board.valid_placement?(cruiser, ["B1", "C1", "D1"])
+    assert_equal false, board.valid_placement?(cruiser, ["H1", "H2", "H3"])
   end
 
   def test_ship_can_be_placed
+    skip
     board = Board.new
     cruiser = Ship.new("Cruiser", 3)
     submarine = Ship.new("Submarine", 2)
@@ -71,6 +76,7 @@ class BoardTest < Minitest::Test
   end
 
   def test_placement_is_only_valid_if_space_is_empty
+    skip
     board = Board.new
     cruiser = Ship.new("Cruiser", 3)
     submarine = Ship.new("Submarine", 2)
@@ -84,6 +90,7 @@ class BoardTest < Minitest::Test
   end
 
   def test_board_can_render
+    skip
     board = Board.new
     cruiser = Ship.new("Cruiser", 3)
     submarine = Ship.new("Submarine", 2)
