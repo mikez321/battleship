@@ -25,8 +25,13 @@ class Board
   end
 
   def valid_coordinate?(coordinates)
-    require "pry"; binding.pry
-    cells.keys.include?(coordinates)
+    if coordinates.class = String
+      cells.keys.include?(coordinates)
+    elsif coordinates.class = Array
+      coordinates.all? do |coord|
+        valid_coordinate?(coord)
+      end
+    end
   end
 
   def ascending_only?(coordinates)
@@ -65,6 +70,7 @@ class Board
   end
 
   def valid_placement?(ship, coordinates)
+    require "pry"; binding.pry
     (ship_valid_horizontal?(ship, coordinates) ||
       ship_valid_vertical?(ship, coordinates)) &&
       ship_space_valid?(ship, coordinates) &&
