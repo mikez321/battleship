@@ -87,7 +87,7 @@ class GamePlay
       puts "Choose a coordinate to place your shot."
       coordinate = gets.chomp.upcase
       @game.place_player_shot(coordinate)
-      sleep 1.2
+      # sleep 1.2
       @game.place_computer_shot
       sleep 1.2
       system "clear"
@@ -95,10 +95,24 @@ class GamePlay
       print "\n\n"
       display_board("player")
     end
-    @game.game_over_message
-    start
-    place_player_ships
-    @game.place_player_ships_actions
-    gameplay
+    game_over_message
   end
+
+  def game_over_message
+    system "clear"
+    puts "+-+-+-+-+ +-+-+-+-+"
+    puts "|G|a|m|e| |O|v|e|r|"
+    puts "+-+-+-+-+ +-+-+-+-+"
+    puts "\n\n"
+    if @player_cruiser.sunk? && @player_submarine.sunk?
+      puts "HA, You lost! Try again!"
+    else @computer_cruiser.sunk? && @computer_submarine.sunk?
+      puts "I want a rematch!"
+    end
+  end
+    # start
+  #   place_player_ships
+  #   @game.place_player_ships_actions
+  #   gameplay
+  # end
 end
