@@ -1,7 +1,7 @@
 require './lib/ship'
 require './lib/cell'
 require './lib/board'
-require 'io/console'
+# require 'io/console'
 require './lib/game_play'
 
 class Game
@@ -79,7 +79,7 @@ class Game
       puts "Your shot on #{coordinate} sunk a ship!"
     end
 
-    if @computer_cruiser.sunk? && @computer_submarine.sunk?
+    if player_all_sunk || computer_all_sunk
       @game_over = true
     end
   end
@@ -99,8 +99,17 @@ class Game
       puts "Their shot on #{coordinate} sunk your ship!"
     end
 
-    if @player_cruiser.sunk? && @player_submarine.sunk?
+    if player_all_sunk || computer_all_sunk
       @game_over = true
     end
   end
+
+  def player_all_sunk
+    @player_cruiser.sunk? && @player_submarine.sunk?
+  end
+
+  def computer_all_sunk
+    @computer_cruiser.sunk? && @computer_submarine.sunk?
+  end
+
 end
