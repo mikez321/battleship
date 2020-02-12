@@ -20,7 +20,6 @@ class BoardTest < Minitest::Test
   end
 
   def test_it_has_valid_coordiantes
-    skip
     board = Board.new
     assert_equal true, board.valid_coordinate?("A1")
     assert_equal true, board.valid_coordinate?("D4")
@@ -44,8 +43,7 @@ class BoardTest < Minitest::Test
 
     # first two are testing to make sure the valid_placement is accoring to ships
     assert_equal false, board.valid_placement?(cruiser, ["A1", "A2"])
-    
-    require "pry"; binding.pry
+    assert_equal false, board.valid_placement?(cruiser, ["F1", "F2", "F3"])
     assert_equal false, board.valid_placement?(submarine, ["A2", "A3", "A4"])
     # # # next four are to make sure the coordiantes are consecutive
     assert_equal false, board.valid_placement?(cruiser, ["A1", "A2", "A4"])
@@ -80,7 +78,6 @@ class BoardTest < Minitest::Test
   end
 
   def test_placement_is_only_valid_if_space_is_empty
-    skip
     board = Board.new
     cruiser = Ship.new("Cruiser", 3)
     submarine = Ship.new("Submarine", 2)
