@@ -52,7 +52,7 @@ class GamePlay
   def display_board(player)
     if (player == "computer")
       puts "=============COMPUTER BOARD============="
-      puts @game.computer_board.render
+      puts @game.computer_board.render(true)
     elsif (player == "player")
       puts "==============PLAYER BOARD=============="
       puts @game.player_board.render(true)
@@ -89,9 +89,9 @@ class GamePlay
       puts "Choose a coordinate to place your shot."
       coordinate = gets.chomp.upcase
       @game.place_player_shot(coordinate)
-      sleep 1.2
+      # sleep 1.2
       @game.place_computer_shot
-      sleep 1.2
+      # sleep 1.2
       system "clear"
       display_board("computer")
       print "\n\n"
