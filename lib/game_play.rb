@@ -4,8 +4,6 @@ require './lib/cell'
 require './lib/ship'
 
 class GamePlay
-  attr_reader :header
-
   def initialize
     @game = Game.new
     @player_board = Board.new
@@ -82,6 +80,7 @@ class GamePlay
 
   def gameplay
     until @game.game_over == true
+      system "clear"
       display_board("computer")
       print "\n\n"
       display_board("player")
@@ -91,6 +90,7 @@ class GamePlay
       sleep 1.2
       @game.place_computer_shot
       sleep 1.2
+      system "clear"
       display_board("computer")
       print "\n\n"
       display_board("player")
