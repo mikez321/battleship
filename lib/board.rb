@@ -60,9 +60,8 @@ class Board
       ascending_only?(coordinates)
   end
 
-  def ship_space_valid?(ship, coordinates)
-    ship_space = coordinates.map { |coordinate| cells[coordinate].empty? }
-    ship_space.uniq.length == 1
+  def ship_space_valid?(coordinates)
+    coordinates.all? { |coordinate| cells[coordinate].empty? }
   end
 
   def all_coordinates_are_unique?(coordinates)
@@ -70,10 +69,10 @@ class Board
   end
 
   def valid_placement?(ship, coordinates)
-    require "pry"; binding.pry
+    valid_coordinate?(coordinates) &&
     (ship_valid_horizontal?(ship, coordinates) ||
       ship_valid_vertical?(ship, coordinates)) &&
-      ship_space_valid?(ship, coordinates) &&
+      ship_space_valid?(coordinates) &&
       all_coordinates_are_unique?(coordinates)
   end
 
