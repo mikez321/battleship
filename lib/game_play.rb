@@ -4,6 +4,8 @@ require './lib/cell'
 require './lib/ship'
 
 class GamePlay
+  attr_reader :game, :player_board, :player_cruiser, :player_submarine,
+              :computer_board, :computer_cruiser, :computer_submarine, :game_over
   def initialize
     @game = Game.new
     @player_board = Board.new
@@ -50,7 +52,7 @@ class GamePlay
   def display_board(player)
     if (player == "computer")
       puts "=============COMPUTER BOARD============="
-      puts @game.computer_board.render(true)
+      puts @game.computer_board.render
     elsif (player == "player")
       puts "==============PLAYER BOARD=============="
       puts @game.player_board.render(true)
