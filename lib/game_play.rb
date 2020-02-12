@@ -29,6 +29,7 @@ class GamePlay
   end
 
   def start
+    initialize
     system "clear"
     start_banner
     puts "Enter p to play. Enter q to quit"
