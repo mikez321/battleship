@@ -87,7 +87,7 @@ class GamePlay
       puts "Choose a coordinate to place your shot."
       coordinate = gets.chomp.upcase
       @game.place_player_shot(coordinate)
-      # sleep 1.2
+      sleep 1.2
       @game.place_computer_shot
       sleep 1.2
       system "clear"
@@ -104,15 +104,21 @@ class GamePlay
     puts "|G|a|m|e| |O|v|e|r|"
     puts "+-+-+-+-+ +-+-+-+-+"
     puts "\n\n"
-    if @player_cruiser.sunk? && @player_submarine.sunk?
+    if @game.player_all_sunk
       puts "HA, You lost! Try again!"
-    else @computer_cruiser.sunk? && @computer_submarine.sunk?
+    else @game.computer_all_sunk
       puts "I want a rematch!"
     end
+    puts "\n\nPlay Again?  Y/N"
+    start_option = gets.chomp.downcase
+      until start_option == "y" || start_option == "n"
+        puts "\n\n Play Again?  Y/N"
+        start_option = gets.chomp.downcase
+      end
+      if start_option == "n"
+        puts "Come back when you're ready for battle!"
+      elsif start_option == "y"
+        start
+      end
   end
-    # start
-  #   place_player_ships
-  #   @game.place_player_ships_actions
-  #   gameplay
-  # end
 end
