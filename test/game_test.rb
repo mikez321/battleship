@@ -68,9 +68,16 @@ class GameTest < Minitest::Test
     game.stubs(:player_all_sunk?).returns(true)
     assert_equal true, game.player_all_sunk?
 
+    game.game_over?
+
+    assert_equal true, game.game_over?
+
     assert_equal false, game.computer_all_sunk?
     game.stubs(:computer_all_sunk).returns(true)
-    assert_equal true, game_over
+    
+    game.game_over?
+
+    assert_equal true, game.game_over?
   end
 
 end
