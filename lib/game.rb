@@ -1,7 +1,6 @@
 require './lib/ship'
 require './lib/cell'
 require './lib/board'
-require 'io/console'
 require './lib/game_play'
 
 class Game
@@ -64,10 +63,11 @@ class Game
   end
 
   def place_player_shot(coordinate)
-    until @computer_board.valid_coordinate?(coordinate) && !@computer_board.cells[coordinate].fired_upon?
-        puts "Invalid coordinates, please try again."
-        puts ">"
-        coordinate = gets.chomp
+    until @computer_board.valid_coordinate?(coordinate) &&
+        !@computer_board.cells[coordinate].fired_upon?
+      puts "Invalid coordinates, please try again."
+      puts ">"
+      coordinate = gets.chomp
     end
     @computer_board.cells[coordinate].fire_upon
 
@@ -78,15 +78,13 @@ class Game
     elsif @computer_board.cells[coordinate].render == "X"
       puts "Your shot on #{coordinate} sunk a ship!"
     end
-
-    if @computer_cruiser.sunk? && @computer_submarine.sunk?
-      @game_over = true
-    end
+    game_over?
   end
 
   def place_computer_shot
     coordinate = @player_board.cells.keys.sample
-    until @player_board.valid_coordinate?(coordinate) && !@player_board.cells[coordinate].fired_upon?
+    until @player_board.valid_coordinate?(coordinate) &&
+        !@player_board.cells[coordinate].fired_upon?
       coordinate = @player_board.cells.keys.sample
     end
     @player_board.cells[coordinate].fire_upon
@@ -98,17 +96,21 @@ class Game
     elsif @player_board.cells[coordinate].render == "X"
       puts "Their shot on #{coordinate} sunk your ship!"
     end
+    game_over?
+  end
 
-    if @player_cruiser.sunk? && @player_submarine.sunk?
+  def player_all_sunk?
+    @player_cruiser.sunk? && @player_submarine.sunk?
+  end
+
+  def computer_all_sunk?
+    @computer_cruiser.sunk? && @computer_submarine.sunk?
+  end
+
+  def game_over?
+    if player_all_sunk? || computer_all_sunk?
       @game_over = true
     end
   end
 
-  def game_over_message
-    if @player_cruiser.sunk? && @player_submarine.sunk?
-      p "HA, You lost! Try again!"
-    else @computer_cruiser.sunk? && @computer_submarine.sunk?
-      p "I want a rematch!"
-    end
-  end
 end
