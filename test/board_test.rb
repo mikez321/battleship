@@ -40,8 +40,12 @@ class BoardTest < Minitest::Test
     board = Board.new
     cruiser = Ship.new("Cruiser", 3)
     submarine = Ship.new("Submarine", 2)
+
+
     # first two are testing to make sure the valid_placement is accoring to ships
     assert_equal false, board.valid_placement?(cruiser, ["A1", "A2"])
+    
+    require "pry"; binding.pry
     assert_equal false, board.valid_placement?(submarine, ["A2", "A3", "A4"])
     # # # next four are to make sure the coordiantes are consecutive
     assert_equal false, board.valid_placement?(cruiser, ["A1", "A2", "A4"])
