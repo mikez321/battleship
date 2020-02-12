@@ -25,6 +25,7 @@ class Board
   end
 
   def valid_coordinate?(coordinates)
+    require "pry"; binding.pry
     cells.keys.include?(coordinates)
   end
 
