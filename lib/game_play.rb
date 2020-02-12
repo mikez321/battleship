@@ -106,9 +106,9 @@ class GamePlay
     puts "|G|a|m|e| |O|v|e|r|"
     puts "+-+-+-+-+ +-+-+-+-+"
     puts "\n\n"
-    if @game.player_all_sunk
+    if @game.player_all_sunk?
       puts "HA, You lost! Try again!"
-    else @game.computer_all_sunk
+    else @game.computer_all_sunk?
       puts "I want a rematch!"
     end
     puts "\n\nPlay Again?  Y/N"
