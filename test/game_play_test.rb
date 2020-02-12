@@ -26,21 +26,4 @@ class GamePlayTest < Minitest::Test
     assert_equal false, gameplay.game_over
   end
 
-  def test_it_can_print_a_start_banner
-    skip
-    gameplay = GamePlay.new
-
-    expected =
-      " _______  _______  _______  _______  ___      _______  _______  __   __  ___   _______ ", gameplay.start_banner
-  end
-
-  def test_it_can_print_a_header
-    skip
-    gameplay = GamePlay.new
-
-    expected = "=============* BATTLESHIP *============="
-
-    assert_equal expected, gameplay.header
-  end
-
 end
